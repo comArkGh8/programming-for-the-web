@@ -1,0 +1,47 @@
+
+
+body {
+    font-family:Helvetica;
+}
+
+table {
+    table-layout:fixed;
+    width:70%;"
+}
+
+h1 {
+    color:#FFF;
+    font-size:200%;
+    font-weight:700;
+    letter-spacing:3px;
+    padding-right:50px;
+    padding-bottom:150px;
+    text-shadow:-1px 0 black, 0 1px black, 1px 0 black, 0 -1px #000;
+    vertical-align:top;
+}
+
+.copyright-notice{
+  color:#FFF;
+  font-size:50%;
+  padding-right:50px;
+  text-align:right;
+  text-decoration:none;
+  vertical-align:bottom;
+}
+
+.month-header{
+    background-image:url(http://i66.tinypic.com/dy85ev.jpg);
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    height:300px;
+    text-align:right;"
+}
+
+.weekday-header{
+    background-color:#999;
+    border-color:#ddd;
+    border-style:solid;
+    letter-spacing:1px;
+    line-height:25px;
+}
