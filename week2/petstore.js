@@ -30,7 +30,24 @@ function calculateFoodOrder(numAnimals, avgFood) {
  * @return a string containing the name of the most popular day of the week if there is only one most popular day, and an array of the strings containing the names of the most popular days if there are more than one that are most popular
  */
 function mostPopularDays(week) {
-    // IMPLEMENT THIS FUNCTION!
+    // first check if null or is empty
+    if ( !(week) || week.length == 0){
+      return null;
+    }
+    else{
+      var maxWeekDays = [];
+
+      // get max traffic:
+      // see https://stackoverflow.com/questions/4020796/finding-the-max-value-of-an-attribute-in-an-array-of-objects
+      var maxTraffic = Math.max.apply(Math, week.map(function(obj) { return obj.traffic; }));
+      // do a loop and create array with highest traffic
+      week.forEach(function (arrayItem) {
+        if (arrayItem.traffic == maxTraffic){
+          maxWeekDays.push(arrayItem.name);
+        }
+      } );
+    }
+    return maxWeekDays;
 }
 
 
