@@ -47,6 +47,9 @@ function mostPopularDays(week) {
         }
       } );
     }
+    if ( maxWeekDays.length == 1 ){
+      return maxWeekDays[0];
+    }
     return maxWeekDays;
 }
 
@@ -65,6 +68,11 @@ function mostPopularDays(week) {
 function createAnimalObjects(names, types, breeds) {
     // init output
     var animalArray = [];
+
+    // check if null
+    if (names == null || types == null || breeds == null) {
+      return animalArray;
+    }
     if (names.length == 0){
       return animalArray;
     }
