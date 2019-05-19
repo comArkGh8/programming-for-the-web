@@ -93,7 +93,7 @@ function changeOp(op){
 }
 
 function ignore(){
-  if (operation1 == ''){
+  if (operation1 == '' || afterOp || afterEq){
     return true;
   }
   return false;
@@ -210,7 +210,6 @@ $("#equalsButton").click(function() {
   }
   else{
     setArg2Arg3();
-    //outDisplay.html(arg1 + ',' + arg2 + ',' + arg3);
     reduceThroughCases();
     opInProgress = false;
     afterOp = false;
