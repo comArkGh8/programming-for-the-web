@@ -92,6 +92,13 @@ function changeOp(op){
   }
 }
 
+function ignore(){
+  if (operation1 == ''){
+    return true;
+  }
+  return false;
+}
+
 
 $("button").click(function() {
   var currValue = $(this).val();
@@ -198,10 +205,16 @@ $("#clearButton").click(function() {
 });
 
 $("#equalsButton").click(function() {
-  setArg2Arg3();
-  //outDisplay.html(arg1 + ',' + arg2 + ',' + arg3);
-  reduceThroughCases();
-  opInProgress = false;
-  afterOp = false;
-  afterEq = true;
+  if (ignore()){
+    //do nothing
+  }
+  else{
+    setArg2Arg3();
+    //outDisplay.html(arg1 + ',' + arg2 + ',' + arg3);
+    reduceThroughCases();
+    opInProgress = false;
+    afterOp = false;
+    afterEq = true;
+  }
+
 });
