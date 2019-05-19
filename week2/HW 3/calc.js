@@ -7,6 +7,7 @@ var disp;
 var arg1;
 var arg2;
 var arg3;
+var lastInput;
 var operation1 = '';
 var operation2 = '';
 var opInProgress = false;
@@ -41,9 +42,8 @@ function calcValue(a,b,op) {
 }
 
 function resetVals(){
-  operation1 = '';
+  //operation1 = '';
   operation2 = '';
-  arg1 = null;
   arg2 = null;
   arg3 = null;
   afterEq = false;
@@ -57,13 +57,11 @@ function reduceThroughCases(){
     // op1 = +-; op2 = * /
     var last = calcValue(arg2,arg3,operation2);
     var total = calcValue(arg1,last,operation1);
-    resetVals();
     arg1 = total;
     calcWindow.val(total);
   }
   else{
     var total = calcValue(arg1,arg2,operation1);
-    resetVals();
     arg1 = total;
     calcWindow.val(total);
   }
@@ -93,10 +91,17 @@ function changeOp(op){
 }
 
 function ignore(){
-  if (operation1 == '' || afterOp || afterEq){
+  if (operation1 == '' || afterOp){
     return true;
   }
   return false;
+}
+
+function getLast(){
+  if (arg3){
+    return arg3;
+  }
+  return arg2;
 }
 
 
@@ -128,6 +133,8 @@ $("#addButton").click(function() {
     if (opInProgress) {
       setArg2Arg3();
       reduceThroughCases();
+      lastInput = getLast();
+      resetVals();
     }
     else{
       arg1 = calcWindow.val();
@@ -146,7 +153,11 @@ $("#subtractButton").click(function() {
   else{
     if (opInProgress) {
       setArg2Arg3();
+      //outDisplay.html(arg1 + ',' + arg2);
       reduceThroughCases();
+      lastInput = getLast();
+      resetVals();
+      outDisplay.html(arg1 + ',' + arg2);
     }
     else{
       arg1 = calcWindow.val();
@@ -166,6 +177,7 @@ $("#multiplyButton").click(function() {
     if (opInProgress) {
       setArg2Arg3();
       operation2 = '*';
+      lastInput = getLast();
     }
     else{
       arg1 = calcWindow.val();
@@ -179,12 +191,13 @@ $("#multiplyButton").click(function() {
 
 $("#divideButton").click(function() {
   if (afterOp){
-    changeOp('*');
+    changeOp('/');
   }
   else{
     if (opInProgress) {
       setArg2Arg3();
       operation2 = '/';
+      lastInput = getLast();
     }
     else{
       arg1 = calcWindow.val();
@@ -201,6 +214,8 @@ $("#clearButton").click(function() {
   disp = null;
   calcWindow.val(disp);
   resetVals();
+  arg1 = null;
+  operation1 = '';
   opInProgress = false;
 });
 
@@ -209,8 +224,18 @@ $("#equalsButton").click(function() {
     //do nothing
   }
   else{
-    setArg2Arg3();
+    if (afterEq){
+      arg1 = calcWindow.val();
+      arg1 = Number(arg1);
+      arg2 = lastInput;
+      arg3 = null;
+    }
+    else{
+      setArg2Arg3();
+      lastInput = getLast();
+    }
     reduceThroughCases();
+    resetVals();
     opInProgress = false;
     afterOp = false;
     afterEq = true;
