@@ -4,10 +4,93 @@ var outDisplay = $("#output");
 var calcWindow = $("#display");
 
 var disp;
-var oldValue;
-var operation = '';
-var afterOp = false;
+var arg1;
+var arg2;
+var arg3;
+var operation1 = '';
+var operation2 = '';
+var opInProgress = false;
 var afterEq = false;
+var afterOp = false;
+
+
+function calcValue(a,b,op) {
+  var newValue;
+  switch (op){
+    case '':
+      break;
+    case '+':
+      newValue = a + b;
+      break;
+    case '-':
+      newValue = a - b;
+      break;
+    case '*':
+      newValue = a * b;
+      break;
+    case '/':
+      if (b == 0){
+        newValue = 'Infinity';
+      }
+      else{
+        newValue = a / b;
+      }
+      break;
+    }
+    return newValue;
+}
+
+function resetVals(){
+  operation1 = '';
+  operation2 = '';
+  arg1 = null;
+  arg2 = null;
+  arg3 = null;
+  afterEq = false;
+  afterOp = false;
+}
+
+
+
+function reduceThroughCases(){
+  if (arg3){
+    // op1 = +-; op2 = * /
+    var last = calcValue(arg2,arg3,operation2);
+    var total = calcValue(arg1,last,operation1);
+    resetVals();
+    arg1 = total;
+    calcWindow.val(total);
+  }
+  else{
+    var total = calcValue(arg1,arg2,operation1);
+    resetVals();
+    arg1 = total;
+    calcWindow.val(total);
+  }
+}
+
+
+function setArg2Arg3(){
+  if (!arg2){
+    arg2 = calcWindow.val();
+    arg2 = Number(arg2);
+  }
+  else{
+    arg3 = calcWindow.val();
+    arg3 = Number(arg3);
+  }
+}
+
+function changeOp(op){
+  if (afterOp){
+    if (operation2 == ''){
+      operation1 = op;
+    }
+    else{
+      operation2 = op;
+    }
+  }
+}
 
 
 $("button").click(function() {
@@ -25,98 +108,100 @@ $("button").click(function() {
       calcWindow.val(disp);
     }
     afterEq = false;
+    afterOp = false;
   }
 });
 
 
 $("#addButton").click(function() {
-  if (afterOp) {
-    oldValue = Number(oldValue) + Number(disp);
-    calcWindow.val(oldValue);
+  if (afterOp){
+    changeOp('+');
   }
   else{
-    oldValue = calcWindow.val();
-    operation = '+';
+    if (opInProgress) {
+      setArg2Arg3();
+      reduceThroughCases();
+    }
+    else{
+      arg1 = calcWindow.val();
+      arg1 = Number(arg1);
+    }
+    operation1 = '+';
+    opInProgress = true;
+    afterOp = true;
   }
-  afterOp = true;
 });
 
 $("#subtractButton").click(function() {
-  if (afterOp) {
-    oldValue = Number(oldValue) - Number(disp);
-    calcWindow.val(oldValue);
+  if (afterOp){
+    changeOp('-');
   }
   else{
-    oldValue = calcWindow.val();
-    operation = '-';
+    if (opInProgress) {
+      setArg2Arg3();
+      reduceThroughCases();
+    }
+    else{
+      arg1 = calcWindow.val();
+      arg1 = Number(arg1);
+    }
+    operation1 = '-';
+    opInProgress = true;
+    afterOp = true;
   }
-  afterOp = true;
 });
 
 $("#multiplyButton").click(function() {
-  if (afterOp) {
-    oldValue = Number(oldValue) * Number(disp);
-    calcWindow.val(oldValue);
+  if (afterOp){
+    changeOp('*');
   }
   else{
-    oldValue = calcWindow.val();
-    operation = '*';
+    if (opInProgress) {
+      setArg2Arg3();
+      operation2 = '*';
+    }
+    else{
+      arg1 = calcWindow.val();
+      arg1 = Number(arg1);
+      operation1 = '*';
+    }
+    opInProgress = true;
+    afterOp = true;
   }
-  afterOp = true;
 });
 
 $("#divideButton").click(function() {
-  if (afterOp) {
-    oldValue = Number(oldValue) / Number(disp);
-    calcWindow.val(oldValue);
+  if (afterOp){
+    changeOp('*');
   }
   else{
-    oldValue = calcWindow.val();
-    operation = '/';
+    if (opInProgress) {
+      setArg2Arg3();
+      operation2 = '/';
+    }
+    else{
+      arg1 = calcWindow.val();
+      arg1 = Number(arg1);
+      operation1 = '/';
+    }
+    opInProgress = true;
+    afterOp = true;
   }
-  afterOp = true;
+
 });
 
 $("#clearButton").click(function() {
   disp = null;
   calcWindow.val(disp);
-  oldValue = null;
-  operation = '';
-  afterOp = false;
-  afterEq = false;
+  resetVals();
+  opInProgress = false;
 });
 
 $("#equalsButton").click(function() {
-  var newValue;
-  switch (operation){
-    case '':
-      break;
-    case '+':
-      newValue = Number(oldValue) + Number(disp);
-      calcWindow.val(newValue);
-      break;
-    case '-':
-      newValue = Number(oldValue) - Number(disp);
-      calcWindow.val(newValue);
-      break;
-    case '*':
-      newValue = Number(oldValue) * Number(disp);
-      calcWindow.val(newValue);
-      break;
-    case '/':
-      var denom = Number(disp);
-      if (denom == 0){
-        display = 'Infinity';
-        calcWindow.val(display);
-      }
-      else{
-        newValue = Number(oldValue) / denom;
-        calcWindow.val(newValue);
-      }
-      break;
-  }
-  operation = '';
-  afterEq = true;
+  setArg2Arg3();
+  //outDisplay.html(arg1 + ',' + arg2 + ',' + arg3);
+  reduceThroughCases();
+  opInProgress = false;
   afterOp = false;
-
+  afterEq = true;
 });
