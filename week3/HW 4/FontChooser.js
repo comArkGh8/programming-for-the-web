@@ -1,21 +1,15 @@
 class FontChooser extends React.Component {
 
     constructor(props) {
+
+
+
 	     super(props);
        this.state = { hidden : 'true'};
        this.state = { textColor : 'black'};
        this.state = { boldCheck : this.props.bold};
+       this.state = { sizeVar : this.props.min};
 
-       var minInput = parseInt(this.props.min);
-       var sizeInput = parseInt(this.props.size);
-
-
-       if (sizeInput <= minInput){
-         this.state = { sizeVar : this.props.min};
-       }
-       else{
-         this.state = { sizeVar : this.props.size};
-       }
     }
 
     changeColor(s){
