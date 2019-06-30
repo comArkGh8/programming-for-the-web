@@ -3,8 +3,18 @@ class FontChooser extends React.Component {
     constructor(props) {
 	     super(props);
        this.state = { hidden : 'true'};
+       this.state = { textColor : 'black'}
        this.state = { boldCheck : this.props.bold};
-       this.state = {sizeVar : this.props.size};
+       this.state = { sizeVar : this.props.size};
+    }
+
+    changeColor(s){
+      var minSize = parseInt(this.props.min);
+      var maxSize = parseInt(this.props.max);
+      if (s<= minSize || s>= maxSize){
+        return 'red';
+      }
+      return 'black';
     }
 
     handleClick() {
@@ -20,6 +30,8 @@ class FontChooser extends React.Component {
       var newSize = currentSize - 1;
       var minSize = parseInt(this.props.min);
       newSize = Math.max(minSize,newSize);
+      var newColor = this.changeColor(newSize);
+      this.setState( {textColor : newColor} );
       this.setState( { sizeVar : newSize } );
     }
 
@@ -28,6 +40,8 @@ class FontChooser extends React.Component {
       var newSize = currentSize + 1;
       var maxSize = parseInt(this.props.max);
       newSize = Math.min(maxSize,newSize);
+      var newColor = this.changeColor(newSize);
+      this.setState( {textColor : newColor} );
       this.setState( { sizeVar : newSize } );
     }
 
@@ -37,6 +51,7 @@ class FontChooser extends React.Component {
       var isBold = (this.state.boldCheck == 'true');
       var bold = isBold ? 'bold' : 'normal';
       var size = this.state.sizeVar;
+      var color = this.state.textColor;
       const style = (this.state.hidden == 'true')? {display: 'none'} : {};
 
       return(
@@ -48,16 +63,14 @@ class FontChooser extends React.Component {
                       onClick={this.handleDecrease.bind(this)}>
                         -
                </button>
-      	       <span id="fontSizeSpan" style={style}>{this.props.size}</span>
+      	       <span id="fontSizeSpan" style={style}>{this.state.sizeVar}</span>
       	       <button id="increaseButton" style={style}
                       onClick={this.handleIncrease.bind(this)}>
                         +
                </button>
-               <span id="textSpan" style={{fontSize:size, fontWeight:bold}} onClick={this.handleClick.bind(this)}>
+               <span id="textSpan" style={{color: color, fontSize:size, fontWeight:bold}} onClick={this.handleClick.bind(this)}>
                   {this.props.text}
                </span>
-               <li> {this.state.sizeVar} </li>
-
 
     	       </div>
     	);
