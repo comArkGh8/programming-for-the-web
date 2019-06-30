@@ -18,7 +18,7 @@ class LikeButton extends React.Component {
     super(props);
     this.state = { liked : false };
   }
- 
+
 
   toggle() {
     this.setState({liked: !this.state.liked});
@@ -32,9 +32,12 @@ class LikeButton extends React.Component {
     var bold = this.state.liked ? 'bold' : 'normal';
     return (
       <p>
-      <span style={{color: color, fontWeight: bold}}>
-        {name} </span><span onClick={this.toggle.bind(this)}> {'\ud83d\udc4d' + txt}
-      </span>
+        <span style={{color: color, fontWeight: bold}}>
+          {name}
+        </span>
+        <span onClick={this.toggle.bind(this)}>
+          {'\ud83d\udc4d' + txt}
+        </span>
       </p>
     );
   }
