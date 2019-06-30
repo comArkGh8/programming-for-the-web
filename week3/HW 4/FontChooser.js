@@ -4,6 +4,7 @@ class FontChooser extends React.Component {
 	     super(props);
        this.state = { hidden : 'true'};
        this.state = { boldCheck : this.props.bold};
+       this.state = {sizeVar : this.props.size};
     }
 
     handleClick() {
@@ -14,12 +15,20 @@ class FontChooser extends React.Component {
       this.setState( { boldCheck : (this.state.boldCheck == 'true' ? 'false' : 'true') } );
     }
 
+    handleDecrease() {
+      var currentSize = parseInt(this.state.sizeVar);
+      var newSize = currentSize - 1;
+      var minSize = parseInt(this.props.min);
+      newSize = Math.max(minSize,newSize);
+      this.setState( { sizeVar : newSize } );
+    }
+
 
 
     render() {
       var isBold = (this.state.boldCheck == 'true');
       var bold = isBold ? 'bold' : 'normal';
-      var size = this.props.size;
+      var size = this.state.sizeVar;
       const style = (this.state.hidden == 'true')? {display: 'none'} : {};
 
       return(
@@ -27,13 +36,16 @@ class FontChooser extends React.Component {
 
       	       <input type="checkbox" id="boldCheckbox" style={style}
                       onChange={this.handleCheck.bind(this)}/>
-      	       <button id="decreaseButton" style={style}>-</button>
+      	       <button id="decreaseButton" style={style}
+                      onClick={this.handleDecrease.bind(this)}>
+                        -
+               </button>
       	       <span id="fontSizeSpan" style={style}>{this.props.size}</span>
       	       <button id="increaseButton" style={style}>+</button>
                <span id="textSpan" style={{fontSize:size, fontWeight:bold}} onClick={this.handleClick.bind(this)}>
                   {this.props.text}
                </span>
-               <li> {this.state.boldCheck} </li>
+               <li> {this.state.sizeVar} </li>
 
 
     	       </div>
