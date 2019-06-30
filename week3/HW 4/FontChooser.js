@@ -1,20 +1,51 @@
 class FontChooser extends React.Component {
 
+    setMinMax(props){
+      var result = [];
+      var propMin = parseInt(props.min);
+      var propMax = parseInt(props.max);
+      if (propMin <= 0){
+        propMin = 1;
+      }
+      if (propMin >= propMax){
+        propMin = Math.max(propMin, propMax);
+        propMax = Math.max(propMin, propMax);
+      }
+      result.push(propMin.toString());
+      result.push(propMax.toString());
+
+      return result;
+    }
+
+    setSize(props){
+      var propMin = parseInt(this.setMinMax(props)[0]);
+      var propMax = parseInt(this.setMinMax(props)[1]);
+      var propSize = parseInt(props.size);
+      if (propSize <= propMin){
+        propSize = propMin;
+      }
+      if (propSize >= propMax){
+        propSize = propMax;
+      }
+
+      return propSize.toString();
+    }
+
     constructor(props) {
-
-
-
 	     super(props);
+
        this.state = { hidden : 'true'};
        this.state = { textColor : 'black'};
        this.state = { boldCheck : this.props.bold};
-       this.state = { sizeVar : this.props.min};
+       this.state = { minSet : this.setMinMax(props)[0]};
+       this.state = { maxSet : this.setMinMax(props)[1]};
+       this.state = { sizeVar : this.setSize(props)};
 
     }
 
     changeColor(s){
-      var minSize = parseInt(this.props.min);
-      var maxSize = parseInt(this.props.max);
+      var minSize = parseInt(this.state.minSet);
+      var maxSize = parseInt(this.state.maxSet);
       if (s<= minSize || s>= maxSize){
         return 'red';
       }
@@ -26,7 +57,7 @@ class FontChooser extends React.Component {
     }
 
     handleDoubleClick() {
-      this.setState( { sizeVar : this.props.size } );
+      this.setState( { sizeVar : this.setSize(this.props) } );
       this.setState( { textColor : 'black'});
     }
 
@@ -37,7 +68,7 @@ class FontChooser extends React.Component {
     handleDecrease() {
       var currentSize = parseInt(this.state.sizeVar);
       var newSize = currentSize - 1;
-      var minSize = parseInt(this.props.min);
+      var minSize = parseInt(this.state.minSet);
       newSize = Math.max(minSize,newSize);
       var newColor = this.changeColor(newSize);
       this.setState( {textColor : newColor} );
@@ -47,7 +78,7 @@ class FontChooser extends React.Component {
     handleIncrease() {
       var currentSize = parseInt(this.state.sizeVar);
       var newSize = currentSize + 1;
-      var maxSize = parseInt(this.props.max);
+      var maxSize = parseInt(this.state.maxSet);
       newSize = Math.min(maxSize,newSize);
       var newColor = this.changeColor(newSize);
       this.setState( {textColor : newColor} );
