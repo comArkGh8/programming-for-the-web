@@ -23,6 +23,14 @@ class FontChooser extends React.Component {
       this.setState( { sizeVar : newSize } );
     }
 
+    handleIncrease() {
+      var currentSize = parseInt(this.state.sizeVar);
+      var newSize = currentSize + 1;
+      var maxSize = parseInt(this.props.max);
+      newSize = Math.min(maxSize,newSize);
+      this.setState( { sizeVar : newSize } );
+    }
+
 
 
     render() {
@@ -41,7 +49,10 @@ class FontChooser extends React.Component {
                         -
                </button>
       	       <span id="fontSizeSpan" style={style}>{this.props.size}</span>
-      	       <button id="increaseButton" style={style}>+</button>
+      	       <button id="increaseButton" style={style}
+                      onClick={this.handleIncrease.bind(this)}>
+                        +
+               </button>
                <span id="textSpan" style={{fontSize:size, fontWeight:bold}} onClick={this.handleClick.bind(this)}>
                   {this.props.text}
                </span>
