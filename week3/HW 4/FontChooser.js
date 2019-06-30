@@ -3,9 +3,19 @@ class FontChooser extends React.Component {
     constructor(props) {
 	     super(props);
        this.state = { hidden : 'true'};
-       this.state = { textColor : 'black'}
+       this.state = { textColor : 'black'};
        this.state = { boldCheck : this.props.bold};
-       this.state = { sizeVar : this.props.size};
+
+       var minInput = parseInt(this.props.min);
+       var sizeInput = parseInt(this.props.size);
+
+
+       if (sizeInput <= minInput){
+         this.state = { sizeVar : this.props.min};
+       }
+       else{
+         this.state = { sizeVar : this.props.size};
+       }
     }
 
     changeColor(s){
@@ -19,6 +29,11 @@ class FontChooser extends React.Component {
 
     handleClick() {
       this.setState( { hidden : (this.state.hidden == 'true' ? 'false' : 'true') } );
+    }
+
+    handleDoubleClick() {
+      this.setState( { sizeVar : this.props.size } );
+      this.setState( { textColor : 'black'});
     }
 
     handleCheck() {
@@ -63,7 +78,9 @@ class FontChooser extends React.Component {
                       onClick={this.handleDecrease.bind(this)}>
                         -
                </button>
-      	       <span id="fontSizeSpan" style={style}>{this.state.sizeVar}</span>
+      	       <span id="fontSizeSpan" style={style} onDoubleClick={this.handleDoubleClick.bind(this)}>
+                  {this.state.sizeVar}
+               </span>
       	       <button id="increaseButton" style={style}
                       onClick={this.handleIncrease.bind(this)}>
                         +
