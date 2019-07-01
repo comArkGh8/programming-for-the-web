@@ -44,6 +44,8 @@ class FontChooser extends React.Component {
 
     }
 
+
+
     changeColor(s){
       var minSize = parseInt(this.getMin());
       var maxSize = parseInt(this.getMax());
@@ -54,7 +56,13 @@ class FontChooser extends React.Component {
     }
 
     handleClick() {
-      this.setState( { hidden : (this.state.hidden == 'true' ? 'false' : 'true') } );
+      if (this.state.hidden){
+        this.setState( { hidden : (this.state.hidden == 'true' ? 'false' : 'true') } );
+      }
+      else{
+        this.setState( { hidden : 'false' } );
+      }
+
     }
 
     handleDoubleClick() {
@@ -89,11 +97,14 @@ class FontChooser extends React.Component {
 
 
     render() {
+      var isHidden = this.state.hidden? (this.state.hidden == 'true') : true;
+
       var isBold = (this.state.boldCheck == 'true');
       var bold = isBold ? 'bold' : 'normal';
       var size = this.state.sizeVar;
       var color = this.state.textColor;
-      const style = (this.state.hidden == 'true')? {display: 'none'} : {};
+
+      const style = (isHidden)? {display: 'none'} : {};
 
       return(
     	       <div>
@@ -119,6 +130,7 @@ class FontChooser extends React.Component {
                   {this.props.text}
                </span>
 
+               <li> {this.state.hidden} </li>
 
 
     	       </div>
