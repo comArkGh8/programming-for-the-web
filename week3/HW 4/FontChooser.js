@@ -1,8 +1,33 @@
 class FontChooser extends React.Component {
 
+    getMin(){
+      var minSize = parseInt(this.props.min);
+      if (minSize <= 0){
+        return '1';
+      }
+      return this.props.min;
+    }
+
+    minBiggerMax(){
+      var minSize = parseInt(this.props.min);
+      var maxSize = parseInt(this.props.max);
+      if (minSize >= maxSize){
+        return true;
+      }
+      return false;
+    }
+
+    getMax(){
+      var minSize = parseInt(this.getMin());
+      var maxSize = parseInt(this.props.max);
+
+      if (minSize >= maxSize){
+        return minSize.toString();
+      }
+      return this.props.max;
+    }
+
     constructor(props) {
-
-
 
 	     super(props);
        this.state = { hidden : 'true'};
