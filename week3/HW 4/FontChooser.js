@@ -102,7 +102,7 @@ class FontChooser extends React.Component {
       var isBold = (this.state.boldCheck == 'true');
       var bold = isBold ? 'bold' : 'normal';
       var size = this.state.sizeVar;
-      var color = this.state.textColor;
+      var color = this.state.textColor? this.state.textColor : 'black';
 
       const style = (isHidden)? {display: 'none'} : {};
 
@@ -130,7 +130,6 @@ class FontChooser extends React.Component {
                   {this.props.text}
                </span>
 
-               <li> {this.state.hidden} </li>
 
 
     	       </div>
