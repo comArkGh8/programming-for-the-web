@@ -9,7 +9,7 @@ class FontChooser extends React.Component {
     }
 
     minBiggerMax(){
-      var minSize = parseInt(this.props.min);
+      var minSize = parseInt(this.getMin());
       var maxSize = parseInt(this.props.max);
       if (minSize >= maxSize){
         return true;
@@ -18,13 +18,20 @@ class FontChooser extends React.Component {
     }
 
     getMax(){
-      var minSize = parseInt(this.getMin());
-      var maxSize = parseInt(this.props.max);
-
-      if (minSize >= maxSize){
+      if (this.minBiggerMax()){
         return minSize.toString();
       }
       return this.props.max;
+    }
+
+    getStartSize(){
+      var minSize = parseInt(this.getMin());
+      var startSize = parseInt(this.props.size);
+      if (startSize <= minSize){
+        return this.getMin();
+      }
+      return this.props.size;
+
     }
 
     constructor(props) {
@@ -33,7 +40,7 @@ class FontChooser extends React.Component {
        this.state = { hidden : 'true'};
        this.state = { textColor : 'black'};
        this.state = { boldCheck : this.props.bold};
-       this.state = { sizeVar : this.props.min};
+       this.state = { sizeVar : this.getStartSize()};
 
     }
 
