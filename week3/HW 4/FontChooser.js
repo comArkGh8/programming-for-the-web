@@ -45,8 +45,8 @@ class FontChooser extends React.Component {
     }
 
     changeColor(s){
-      var minSize = parseInt(this.props.min);
-      var maxSize = parseInt(this.props.max);
+      var minSize = parseInt(this.getMin());
+      var maxSize = parseInt(this.getMax());
       if (s<= minSize || s>= maxSize){
         return 'red';
       }
@@ -58,7 +58,7 @@ class FontChooser extends React.Component {
     }
 
     handleDoubleClick() {
-      this.setState( { sizeVar : this.props.size } );
+      this.setState( { sizeVar : this.getStartSize() } );
       this.setState( { textColor : 'black'});
     }
 
@@ -69,7 +69,7 @@ class FontChooser extends React.Component {
     handleDecrease() {
       var currentSize = parseInt(this.state.sizeVar);
       var newSize = currentSize - 1;
-      var minSize = parseInt(this.props.min);
+      var minSize = parseInt(this.getMin());
       newSize = Math.max(minSize,newSize);
       var newColor = this.changeColor(newSize);
       this.setState( {textColor : newColor} );
@@ -79,7 +79,7 @@ class FontChooser extends React.Component {
     handleIncrease() {
       var currentSize = parseInt(this.state.sizeVar);
       var newSize = currentSize + 1;
-      var maxSize = parseInt(this.props.max);
+      var maxSize = parseInt(this.getMax());
       newSize = Math.min(maxSize,newSize);
       var newColor = this.changeColor(newSize);
       this.setState( {textColor : newColor} );
@@ -100,20 +100,26 @@ class FontChooser extends React.Component {
 
       	       <input type="checkbox" id="boldCheckbox" style={style}
                       onChange={this.handleCheck.bind(this)}/>
-      	       <button id="decreaseButton" style={style}
+
+               <button id="decreaseButton" style={style}
                       onClick={this.handleDecrease.bind(this)}>
                         -
                </button>
-      	       <span id="fontSizeSpan" style={style} onDoubleClick={this.handleDoubleClick.bind(this)}>
+
+               <span id="fontSizeSpan" style={style} onDoubleClick={this.handleDoubleClick.bind(this)}>
                   {this.state.sizeVar}
                </span>
-      	       <button id="increaseButton" style={style}
+
+               <button id="increaseButton" style={style}
                       onClick={this.handleIncrease.bind(this)}>
                         +
                </button>
+
                <span id="textSpan" style={{color: color, fontSize:size, fontWeight:bold}} onClick={this.handleClick.bind(this)}>
                   {this.props.text}
                </span>
+
+
 
     	       </div>
     	);
