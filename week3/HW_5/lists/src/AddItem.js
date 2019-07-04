@@ -5,7 +5,7 @@ class AddItem extends Component {
   constructor() {
     super();
     this.state = {
-      newItem:{}
+      newItem:{} // newItem is of form {list: listName, item: itemName}
     }
   }
 
@@ -13,15 +13,22 @@ class AddItem extends Component {
       e.preventDefault(); // this prevents the page from reloading -- do not delete this line!
 
       // Implement the rest of this function here!
-      this.props.addItem(this.refs.id.value);
-      // value (which is the entered item name) is
-      // sent to addItem prop while rendering in App
-      // whereby handleAddList is triggered with
-      // the id value input here
+      // get listName
+      var listName = this.props.idName; // see List.js
 
-      // set the newList state to blank so the value in
-      // input field updates to blank
-      this.setState({newList: "" });
+      this.setState({newItem:{
+          list: listName,
+          item: this.refs.id.value,
+        }}, function() {
+          this.props.addItem(this.state.newItem);
+          // value (which is {listName: the entered item name}) is
+          // sent to addItem prop while rendering in App
+          // whereby handleAddList is triggered with
+          // the id value input here
+          // the idea of using function is that it
+          // says update state before sending to add Item
+          }
+      );
   }
 
 

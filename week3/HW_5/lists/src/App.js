@@ -51,14 +51,16 @@ class App extends Component {
       // note AddItem idName (see List.js) is given
       // the listName (from Lists.js)
 
-      let currentList = this.props.idName;
+      let currentList =  s['list'];
       // then add item
       let itemsObject = this.state.items;
       let listForItem = itemsObject[currentList];
-      listForItem.push(s);
+      listForItem.push(s['item']);
       // update itemsObject
-      itemsObject[s] = listForItem;
+      itemsObject[currentList] = listForItem;
+
       this.setState({items : itemsObject});
+      console.log(this.state.items);
 
 
   }
