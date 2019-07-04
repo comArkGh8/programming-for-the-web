@@ -44,7 +44,14 @@ class App extends Component {
    * the state, this function  should then re-render this App component.
    */
   handleAddItem(s) {
-      // Implement this function!
+      // s is passed from the AddItem component
+      // in particular from the handleSubmit method
+
+      // get current list
+
+      // then add item
+
+      // setState...
   }
 
   /**
