@@ -26,10 +26,11 @@ class App extends Component {
       lists.push(s);
       this.setState({lists: lists});
 
-      // build items var
-      let itemKey = this.state.lists;
-      let itemEntry = {itemKey: []};
-      this.setState({items: itemEntry});
+      let items = this.state.items;
+      // add key s to items list, with empty list
+      items[s] = [];
+
+      this.setState({items: items});
   }
 
 
