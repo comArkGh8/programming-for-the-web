@@ -48,10 +48,19 @@ class App extends Component {
       // in particular from the handleSubmit method
 
       // get current list
+      // note AddItem idName (see List.js) is given
+      // the listName (from Lists.js)
 
+      let currentList = this.props.idName;
       // then add item
+      let itemsObject = this.state.items;
+      let listForItem = itemsObject[currentList];
+      listForItem.push(s);
+      // update itemsObject
+      itemsObject[s] = listForItem;
+      this.setState({items : itemsObject});
 
-      // setState...
+
   }
 
   /**
