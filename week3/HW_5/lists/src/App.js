@@ -55,12 +55,11 @@ class App extends Component {
       // then add item
       let itemsObject = this.state.items;
       let listForItem = itemsObject[currentList];
-      listForItem.push(s['item']);
+      listForItem.push({name: s['item']});
       // update itemsObject
       itemsObject[currentList] = listForItem;
 
       this.setState({items : itemsObject});
-      console.log(this.state.items);
 
 
   }

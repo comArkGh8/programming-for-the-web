@@ -8,6 +8,7 @@ class List extends Component {
   render() {
     var name = this.props.name;
     var items = this.props.items;
+    //console.log(name);
 
     if (items) {
       return (
