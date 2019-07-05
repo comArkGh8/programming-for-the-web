@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 class ListItem extends Component {
 
     constructor(props) {
-	super(props);
-	this.state = { color: 'black' };
+    	super(props);
+    	this.state = { color: 'black' };
     }
 
     handleClick() {
-	// Implement this function!
+	     // Implement this function!
+       this.setState({color: (this.state.color == 'black' ? 'gray' : 'black') });
     }
 
   render() {
@@ -25,4 +26,3 @@ class ListItem extends Component {
 
 }
 export default ListItem;
-

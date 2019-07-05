@@ -44,9 +44,8 @@ class AddList extends Component {
           <div id='addList'>
             <label>What will be on your next list?&nbsp;
               <input type='text' ref='id' id='newID'
-                onChange = {this.handleChange.bind(this)}
-                value={this.state.newList}>
-              </input>
+              onChange = {this.handleChange.bind(this)}
+              value={this.state.newList}></input>
             </label>
           </div>
 
