@@ -52,17 +52,17 @@ app.use('/findAnimals', (req, res) =>{
 
     if(Object.keys(query).length == 0 ){
         res.type('html').status(200);
-        res.send({});
+        res.json({});
     }
     else{
       Animal.find(query, (err, animals) =>{
         if(err){
             res.type('html').status(500);
-            res.send('Error: '+err);
+            res.json('Error: '+err);
         }
         else if(animals.length==0){
             res.type('html').status(200);
-            res.send({});
+            res.json({});
         }
         else{
             var animalList = [];
@@ -75,12 +75,53 @@ app.use('/findAnimals', (req, res) =>{
                 animal.age = animals[i].age;
                 animalList.push(animal);
             }
-            res.send(animalList);
+            res.json(animalList);
 
         }
 
       });
     }
+
+});
+
+app.use('/animalsYoungerThan', (req,res) =>{
+
+  var query = {};
+  if (req.query.age){
+    query.age = { $lt: req.query.age };
+  }
+
+  if(Object.keys(query).length == 0 ){
+      res.type('html').status(200);
+      res.json({});
+  }
+  else{
+    Animal.find(query, (err, animals) =>{
+      if(err){
+          res.type('html').status(500);
+          res.json('Error: '+err);
+      }
+
+      else if(animals.length==0){
+        var retVal = {};
+        retVal.count = 0;
+        res.json(retVal);
+      }
+      else{
+          var retVal = {};
+          var nameArray = [];
+          for(var i = 0; i < animals.length; i++){
+            var currentName = animals[i].name;
+            nameArray.push(currentName);
+          }
+          retVal.count = animals.length;
+          retVal.names = nameArray;
+          res.json(retVal);
+
+      }
+    });
+  }
+
 
 });
 
