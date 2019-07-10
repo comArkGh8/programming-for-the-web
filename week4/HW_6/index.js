@@ -168,7 +168,8 @@ app.use('/calculatePrice', (req,res) =>{
           for (var i = 0; i < ids.length; i++){
             var currentId = ids[i];
             var currentQty = parseInt(qtyArray[i]);
-            if (!simplifiedIds.includes(currentId)){
+            if (!simplifiedIds.includes(currentId)
+                  && (!isNaN(currentQty) ) && currentQty > 0 ){
               simplifiedIds.push(currentId);
               simplifiedQty.push(currentQty);
               var simplifiedIndex = simplifiedQty.length - 1;
@@ -181,6 +182,7 @@ app.use('/calculatePrice', (req,res) =>{
               }
             }
           }
+
 
 
           // for each id in simplifiedIds
@@ -209,6 +211,7 @@ app.use('/calculatePrice', (req,res) =>{
               }
             }
           }
+
 
           retVal.totalPrice = price;
           retVal.items = itemsArray;
