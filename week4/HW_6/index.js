@@ -162,9 +162,26 @@ app.use('/calculatePrice', (req,res) =>{
           var price = 0;
           var itemsArray = [];
 
-          // TODO simplify!
-          var simplifiedIds = ids;
-          var simplifiedQty = qtyArray;
+          var simplifiedIds = [];
+          var simplifiedQty = [];
+
+          for (var i = 0; i < ids.length; i++){
+            var currentId = ids[i];
+            var currentQty = parseInt(qtyArray[i]);
+            if (!simplifiedIds.includes(currentId)){
+              simplifiedIds.push(currentId);
+              simplifiedQty.push(currentQty);
+              var simplifiedIndex = simplifiedQty.length - 1;
+              for (var j = i+1; j < ids.length; j++){
+                if (ids[j] == currentId){
+                  // update quantity (use numbers!)
+                  var repeatQty = parseInt(qtyArray[j]);
+                  simplifiedQty[simplifiedIndex] += repeatQty;
+                }
+              }
+            }
+          }
+
 
           // for each id in simplifiedIds
           // get the toy
