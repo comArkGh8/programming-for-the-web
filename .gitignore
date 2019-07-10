@@ -12,3 +12,6 @@
 
 # Ignore json stuff
 *.json
+
+# my final score
+final_score.pdf
