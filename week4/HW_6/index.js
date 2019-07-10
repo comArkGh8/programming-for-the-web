@@ -126,6 +126,86 @@ app.use('/animalsYoungerThan', (req,res) =>{
 });
 
 
+app.use('/calculatePrice', (req,res) =>{
+
+  var ids =  []
+  ids = req.query.id;
+  var qtyArray = []
+  qtyArray = req.query.qty;
+
+  if(Object.keys(req.query).length==0){
+    res.type('html').status(200);
+    res.json({});
+  }
+  else  if(ids.length != qtyArray.length){
+    res.type('html').status(200);
+    res.json({});
+  }
+  else {
+    var query = {id: {$in: ids}};
+
+    Toy.find(query, (err, toys) =>{
+      if(err){
+          res.type('html').status(500);
+          res.json('Error: '+err);
+      }
+
+      else if(toys.length==0){
+        var retVal = {};
+        retVal.totalPrice = 0;
+        retVal.items = [];
+        res.json(retVal);
+      }
+
+      else{
+          var retVal = {};
+          var price = 0;
+          var itemsArray = [];
+
+          // TODO simplify!
+          var simplifiedIds = ids;
+          var simplifiedQty = qtyArray;
+
+          // for each id in simplifiedIds
+          // get the toy
+          var numberSimple = simplifiedIds.length;
+          var numberFound = toys.length;
+
+          for(var i = 0; i < numberSimple; i++){
+            var currentId = simplifiedIds[i];
+            // check all toys in result of query
+            for (var j = 0; j < numberFound; j++){
+              // TODO check NaN!
+              if (currentId == toys[j].id){
+                var currentItem = {};
+                var itemQty = simplifiedQty[i];
+                currentItem.item = currentId;
+                currentItem.qty = itemQty;
+                // get subtotal = price * quantity
+                var itemPrice = toys[j].price;
+                var subtotal = itemPrice * itemQty;
+                currentItem.subtotal = subtotal;
+
+                itemsArray.push(currentItem);
+
+                price += subtotal;
+              }
+            }
+          }
+
+          retVal.totalPrice = price;
+          retVal.items = itemsArray;
+          res.json(retVal);
+
+      }
+    });
+  }
+
+
+});
+
+
+
 app.use('/', (req, res) => {
 	res.json({ msg : 'It works!' });
 });
